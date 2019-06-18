@@ -35,10 +35,12 @@ namespace FoodDelivery
             });
             services.AddDbContext<FoodDeliveryContext>(options =>
                options.UseSqlServer(
-                   Configuration.GetConnectionString("AzureConnection")));
+                   Configuration.GetConnectionString("LocalConnection")));
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("AzureConnection")));
+                    Configuration.GetConnectionString("LocalConnection")));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
