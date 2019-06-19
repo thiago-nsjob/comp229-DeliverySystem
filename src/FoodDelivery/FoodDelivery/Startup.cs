@@ -73,6 +73,7 @@ namespace FoodDelivery
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
