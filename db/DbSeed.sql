@@ -122,7 +122,10 @@ if not exists (select * from sysobjects where name='tbl_OrderItem' and xtype='U'
 		PricePerUnity			decimal not null,
 		
 		CONSTRAINT FK_OrderItem_Order FOREIGN KEY (IdOrder)     
-		REFERENCES tbl_Order(IdOrder)   
+		REFERENCES tbl_Order(IdOrder),   
+
+		CONSTRAINT FK_OrderItem_RestaurantMenuItem FOREIGN KEY (IdRestaurantMenuItem)
+		REFERENCES tbl_RestaurantMenuItem(IdRestaurantMenuItem)     
 	) 
 go
 
