@@ -11,22 +11,22 @@ using FoodDelivery.Repository;
 
 namespace FoodDelivery.Controllers
 {
-    public class CustomersController : Controller
+    public class RestaurantsController : Controller
     {
-        private readonly IRepository<Customer> _respository;
+        private readonly IRepository<Restaurant> _repository;
 
-        public CustomersController(IRepository<Customer> respository)
+        public RestaurantsController(IRepository<Restaurant> repository)
         {
-            _respository = respository;
+            _repository = repository;
         }
 
-        // GET: Customers
+        // GET: Restaurants
         public IActionResult Index()
         {
-            return View( _respository.GetAll);
+            return View(_repository.GetAll);
         }
 
-        // GET: Customers/Details/5
+        // GET: Restaurants/Details/5
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -34,36 +34,38 @@ namespace FoodDelivery.Controllers
                 return NotFound();
             }
 
-            var customer =  _respository.GetById(id);
-            if (customer == null)
-                return NotFound();
-            
+            var restaurant = _repository.GetById(id);
 
-            return View(customer);
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            return View(restaurant);
         }
 
-        // GET: Customers/Create
+        // GET: Restaurants/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customers/Create
+        // POST: Restaurants/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdCustomer,Name,Phone,Email,Password")] Customer customer)
+        public async Task<IActionResult> Create([Bind("IdRestaurant,Name,Cuisine,Description,Image")] Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
-                _respository.Add(customer);
+                _repository.Add(restaurant);
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(restaurant);
         }
 
-        // GET: Customers/Edit/5
+        // GET: Restaurants/Edit/5
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -71,22 +73,22 @@ namespace FoodDelivery.Controllers
                 return NotFound();
             }
 
-            var customer = _respository.GetById(id);
-            if (customer == null)
+            var restaurant = _repository.GetById(id);
+            if (restaurant == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            return View(restaurant);
         }
 
-        // POST: Customers/Edit/5
+        // POST: Restaurants/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCustomer,Name,Phone,Email,Password")] Customer customer)
+        public IActionResult Edit(int id, [Bind("IdRestaurant,Name,Cuisine,Description,Image")] Restaurant restaurant)
         {
-            if (id != customer.IdCustomer)
+            if (id != restaurant.IdRestaurant)
             {
                 return NotFound();
             }
@@ -95,11 +97,11 @@ namespace FoodDelivery.Controllers
             {
                 try
                 {
-                    _respository.Update(customer);
+                    _repository.Update(restaurant);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.IdCustomer))
+                    if (!RestaurantExists(restaurant.IdRestaurant))
                     {
                         return NotFound();
                     }
@@ -110,38 +112,39 @@ namespace FoodDelivery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            return View(restaurant);
         }
 
-        // GET: Customers/Delete/5
-        public IActionResult Delete(int? id)
+        // GET: Restaurants/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
+            {
                 return NotFound();
+            }
 
-            var customer = _respository.GetById(id);
-
-            if (_respository.GetById(id) == null)
+            var restaurant = _repository.GetById(id);
+            if (restaurant == null)
+            {
                 return NotFound();
+            }
 
-            
-
-            return View(customer);
+            return View(restaurant);
         }
 
-        // POST: Customers/Delete/5
+        // POST: Restaurants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = _respository.GetById(id);
-            _respository.Remove(id);
+            var restaurant = _repository.GetById(id);
+            _repository.Remove(restaurant.IdRestaurant);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool RestaurantExists(int id)
         {
-            return _respository.GetById(id) !=null;
+            return _repository.GetById(id) != null;
         }
     }
 }

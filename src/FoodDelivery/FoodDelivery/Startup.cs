@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using FoodDelivery.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FoodDelivery.Repository;
+using FoodDelivery.Models;
 
 namespace FoodDelivery
 {
@@ -43,6 +45,17 @@ namespace FoodDelivery
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddTransient<IRepository<Customer>, CustomerRepository>();
+            services.AddTransient<IRepository<DeliveryAddress>, DeliveryAddressRepository>();
+            services.AddTransient<IRepository<OrderItem>, OrderItemRepository>();
+            services.AddTransient<IRepository<OrderStatus>, OrderStatusRepository>();
+            services.AddTransient<IRepository<Order>, OrderRepository>();
+            services.AddTransient<IRepository<PaymentMethod>, PaymentMethodRepository>();
+            services.AddTransient<IRepository<RestaurantMenu>, RestaurantMenuRepository>();
+            services.AddTransient<IRepository<RestaurantMenuItem>, RestaurantMenuItemRepository>();
+            services.AddTransient<IRepository<Restaurant>, RestaurantRepository>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
