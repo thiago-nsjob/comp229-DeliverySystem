@@ -1,0 +1,68 @@
+﻿@model FoodDelivery.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCustomer" class="control-label"></label>
+                <select asp-for="IdCustomer" class ="form-control" asp-items="ViewBag.IdCustomer"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdAddress" class="control-label"></label>
+                <select asp-for="IdAddress" class ="form-control" asp-items="ViewBag.IdAddress"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPaymentMethod" class="control-label"></label>
+                <select asp-for="IdPaymentMethod" class ="form-control" asp-items="ViewBag.IdPaymentMethod"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdRestaurant" class="control-label"></label>
+                <select asp-for="IdRestaurant" class ="form-control" asp-items="ViewBag.IdRestaurant"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdOrderStatus" class="control-label"></label>
+                <select asp-for="IdOrderStatus" class ="form-control" asp-items="ViewBag.IdOrderStatus"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderNetAmount" class="control-label"></label>
+                <input asp-for="OrderNetAmount" class="form-control" />
+                <span asp-validation-for="OrderNetAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderTax" class="control-label"></label>
+                <input asp-for="OrderTax" class="form-control" />
+                <span asp-validation-for="OrderTax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderGrossAmount" class="control-label"></label>
+                <input asp-for="OrderGrossAmount" class="form-control" />
+                <span asp-validation-for="OrderGrossAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerNotes" class="control-label"></label>
+                <input asp-for="CustomerNotes" class="form-control" />
+                <span asp-validation-for="CustomerNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

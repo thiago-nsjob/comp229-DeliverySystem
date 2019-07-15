@@ -1,0 +1,83 @@
+﻿@model IEnumerable<FoodDelivery.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNetAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderTax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderGrossAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdAddressNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCustomerNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdOrderStatusNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPaymentMethodNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdRestaurantNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNetAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderGrossAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdAddressNavigation.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdOrderStatusNavigation.IdOrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPaymentMethodNavigation.IdPaymentMethod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRestaurantNavigation.IdRestaurant)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdOrder">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdOrder">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdOrder">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
