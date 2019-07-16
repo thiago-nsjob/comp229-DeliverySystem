@@ -16,17 +16,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="DeliveryAddress" asp-action="Index">Delivery Address</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                <li class="nav-item dropdown ">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="nav-link" asp-area="" asp-controller="Customers" asp-action="Index">Customer</a>
+                        <a class="nav-link" asp-area="" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
+                        <a class="nav-link" asp-area="" asp-controller="DeliveryAddress" asp-action="Index">Delivery Address</a>
+                        <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                    </div>
                 </li>
             </ul>
             <partial name="_LoginPartial" />
