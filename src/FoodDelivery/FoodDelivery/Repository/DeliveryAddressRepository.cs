@@ -32,6 +32,7 @@ namespace FoodDelivery.Repository
         public DeliveryAddress GetById(int? Id)
         {
             return _context.DeliveryAddress
+                .Include(add => add.CustomerNavigation)
                 .SingleOrDefault(item => item.IdAddress== Id.Value);
         }
 
