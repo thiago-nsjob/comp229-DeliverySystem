@@ -17,7 +17,8 @@ namespace FoodDelivery.Repository
         }
         public IEnumerable<RestaurantMenu> GetAll =>
             _context.RestaurantMenu
-            .Include(item=>item.TblRestaurantMenuItem);
+            .Include(item => item.TblRestaurantMenuItem)
+            .Include(item => item.RestaurantNavigation);
 
         public void Add(RestaurantMenu entity)
         {

@@ -25,19 +25,19 @@
                 @Html.DisplayNameFor(model => model.CustomerNotes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdAddressNavigation)
+                @Html.DisplayNameFor(model => model.AddressNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCustomerNavigation)
+                @Html.DisplayNameFor(model => model.CustomerNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdOrderStatusNavigation)
+                @Html.DisplayNameFor(model => model.OrderStatusNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdPaymentMethodNavigation)
+                @Html.DisplayNameFor(model => model.PaymentMethodNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdRestaurantNavigation)
+                @Html.DisplayNameFor(model => model.RestaurantNavigation)
             </th>
             <th></th>
         </tr>
@@ -58,19 +58,19 @@
                 @Html.DisplayFor(modelItem => item.CustomerNotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdAddressNavigation.City)
+                @Html.DisplayFor(modelItem => item.AddressNavigation.City)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.Name)
+                @Html.DisplayFor(modelItem => item.CustomerNavigation.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdOrderStatusNavigation.IdOrderStatus)
+                @Html.DisplayFor(modelItem => item.OrderStatusNavigation.IdOrderStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdPaymentMethodNavigation.IdPaymentMethod)
+                @Html.DisplayFor(modelItem => item.PaymentMethodNavigation.IdPaymentMethod)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdRestaurantNavigation.IdRestaurant)
+                @Html.DisplayFor(modelItem => item.RestaurantNavigation.IdRestaurant)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdOrder">Edit</a> |

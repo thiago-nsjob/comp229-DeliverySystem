@@ -11,6 +11,8 @@ namespace FoodDelivery.Models
         public decimal Quantity { get; set; }
         public decimal PricePerUnity { get; set; }
 
-        public virtual Order IdOrderNavigation { get; set; }
+        public virtual Order OrderNavigation { get; set; }
+
+        public RestaurantMenuItem RestaurantMenuItemNavigation { get; set; }
     }
 }

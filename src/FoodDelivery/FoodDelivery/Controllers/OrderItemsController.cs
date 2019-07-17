@@ -7,36 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.Data;
 using FoodDelivery.Models;
+using FoodDelivery.Repository;
 
 namespace FoodDelivery.Controllers
 {
     public class OrderItemsController : Controller
     {
-        private readonly FoodDeliveryContext _context;
 
-        public OrderItemsController(FoodDeliveryContext context)
+        private readonly IRepository<OrderItem> _repositoryOrderItem;
+        private readonly IRepository<Order> _repositoryOrder;
+
+        public OrderItemsController(IRepository<OrderItem> repositoryOrderItem, IRepository<Order> repositoryOrder)
         {
-            _context = context;
+            _repositoryOrderItem = repositoryOrderItem;
+            _repositoryOrder = repositoryOrder;
         }
 
         // GET: OrderItems
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var foodDeliveryContext = _context.OrderItem.Include(o => o.IdOrderNavigation);
-            return View(await foodDeliveryContext.ToListAsync());
+            return View(_repositoryOrderItem.GetAll);
         }
 
         // GET: OrderItems/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem
-                .Include(o => o.IdOrderNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrderItem == id);
+            var orderItem = _repositoryOrderItem.GetById(id);
+
             if (orderItem == null)
             {
                 return NotFound();
@@ -48,7 +50,7 @@ namespace FoodDelivery.Controllers
         // GET: OrderItems/Create
         public IActionResult Create()
         {
-            ViewData["IdOrder"] = new SelectList(_context.Order, "IdOrder", "IdOrder");
+            ViewData["IdOrder"] = new SelectList(_repositoryOrder.GetAll, "IdOrder", "IdOrder");
             return View();
         }
 
@@ -57,32 +59,33 @@ namespace FoodDelivery.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdOrderItem,IdOrder,IdRestaurantMenuItem,Quantity,PricePerUnity")] OrderItem orderItem)
+        public IActionResult Create([Bind("IdOrderItem,IdOrder,IdRestaurantMenuItem,Quantity,PricePerUnity")] OrderItem orderItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderItem);
-                await _context.SaveChangesAsync();
+                _repositoryOrderItem.Add(orderItem);
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdOrder"] = new SelectList(_context.Order, "IdOrder", "IdOrder", orderItem.IdOrder);
+            ViewData["IdOrder"] = new SelectList(_repositoryOrder.GetAll, "IdOrder", "IdOrder", orderItem.IdOrder);
             return View(orderItem);
         }
 
         // GET: OrderItems/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem.FindAsync(id);
+            var orderItem = _repositoryOrderItem.GetById(id);
+
             if (orderItem == null)
             {
                 return NotFound();
             }
-            ViewData["IdOrder"] = new SelectList(_context.Order, "IdOrder", "IdOrder", orderItem.IdOrder);
+            ViewData["IdOrder"] = new SelectList(_repositoryOrder.GetAll, "IdOrder", "IdOrder", orderItem.IdOrder);
             return View(orderItem);
         }
 
@@ -102,8 +105,7 @@ namespace FoodDelivery.Controllers
             {
                 try
                 {
-                    _context.Update(orderItem);
-                    await _context.SaveChangesAsync();
+                    _repositoryOrderItem.Update(orderItem);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -118,21 +120,19 @@ namespace FoodDelivery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdOrder"] = new SelectList(_context.Order, "IdOrder", "IdOrder", orderItem.IdOrder);
+            ViewData["IdOrder"] = new SelectList(_repositoryOrder.GetAll, "IdOrder", "IdOrder", orderItem.IdOrder);
             return View(orderItem);
         }
 
         // GET: OrderItems/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem
-                .Include(o => o.IdOrderNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrderItem == id);
+            var orderItem =  _repositoryOrderItem.GetById(id);
             if (orderItem == null)
             {
                 return NotFound();
@@ -144,17 +144,16 @@ namespace FoodDelivery.Controllers
         // POST: OrderItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var orderItem = await _context.OrderItem.FindAsync(id);
-            _context.OrderItem.Remove(orderItem);
-            await _context.SaveChangesAsync();
+            var orderItem = _repositoryOrderItem.GetById(id);
+
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderItemExists(int id)
         {
-            return _context.OrderItem.Any(e => e.IdOrderItem == id);
+            return _repositoryOrderItem.GetById(id) != null ;
         }
     }
 }

@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.MenuType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdRestaurantNavigation)
+                @Html.DisplayNameFor(model => model.RestaurantNavigation)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.MenuType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdRestaurantNavigation.IdRestaurant)
+                @Html.DisplayFor(modelItem => item.RestaurantNavigation.IdRestaurant)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdRestaurantMenu">Edit</a> |

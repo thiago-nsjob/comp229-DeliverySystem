@@ -11,6 +11,8 @@ namespace FoodDelivery.Models
         public string ItemDescription { get; set; }
         public decimal ItemPrice { get; set; }
 
-        public virtual RestaurantMenu IdRestaurantMenuNavigation { get; set; }
+        public virtual RestaurantMenu RestaurantMenuNavigation { get; set; }
+        public ICollection<OrderItem> TblOrderItem { get; set; }
+
     }
 }

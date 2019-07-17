@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.PricePerUnity)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdOrderNavigation)
+                @Html.DisplayNameFor(model => model.OrderNavigation)
             </th>
             <th></th>
         </tr>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.PricePerUnity)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdOrderNavigation.IdOrder)
+                @Html.DisplayFor(modelItem => item.OrderNavigation.IdOrder)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdOrderItem">Edit</a> |

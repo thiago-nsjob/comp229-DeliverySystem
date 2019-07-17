@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.Data;
 using FoodDelivery.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace FoodDelivery.Repository
             _context = context;
         }
 
-        public IEnumerable<PaymentMethod> GetAll => _context.PaymentMethod;
+        public IEnumerable<PaymentMethod> GetAll => _context.PaymentMethod
+            .Include(pay => pay.CustomerNavigation)
+            .Include(pay => pay.TblOrder);
 
         public void Add(PaymentMethod entity)
         {

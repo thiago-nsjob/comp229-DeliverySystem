@@ -16,7 +16,7 @@ namespace FoodDelivery.Models
         public DateTime ExpireDate { get; set; }
         public int SecurityCode { get; set; }
 
-        public virtual Customer IdCustomerNavigation { get; set; }
+        public virtual Customer CustomerNavigation { get; set; }
         public virtual ICollection<Order> TblOrder { get; set; }
     }
 }

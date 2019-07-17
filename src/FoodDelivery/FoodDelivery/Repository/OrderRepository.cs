@@ -17,7 +17,13 @@ namespace FoodDelivery.Repository
         }
         public IEnumerable<Order> GetAll =>
             _context.Order
-            .Include(or => or.TblOrderItem);
+            .Include(or => or.TblOrderItem)
+            .Include(or => or.CustomerNavigation)
+            .Include(or => or.AddressNavigation)
+            .Include(or => or.OrderStatusNavigation)
+            .Include(or => or.PaymentMethodNavigation)
+            .Include(or => or.RestaurantNavigation);
+
 
         public void Add(Order entity)
         {

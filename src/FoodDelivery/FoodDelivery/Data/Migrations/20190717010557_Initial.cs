@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FoodDelivery.Data.Migrations
 {
-    public partial class RestaurantImage : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,12 @@ namespace FoodDelivery.Data.Migrations
                         principalTable: "tbl_Order",
                         principalColumn: "IdOrder",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OrderItem_RestaurantMenuItem",
+                        column: x => x.IdRestaurantMenuItem,
+                        principalTable: "tbl_RestaurantMenuItem",
+                        principalColumn: "IdRestaurantMenuItem",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -249,6 +255,11 @@ namespace FoodDelivery.Data.Migrations
                 column: "IdOrder");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_OrderItem_IdRestaurantMenuItem",
+                table: "tbl_OrderItem",
+                column: "IdRestaurantMenuItem");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_PaymentMethod_IdCustomer",
                 table: "tbl_PaymentMethod",
                 column: "IdCustomer");
@@ -270,13 +281,10 @@ namespace FoodDelivery.Data.Migrations
                 name: "tbl_OrderItem");
 
             migrationBuilder.DropTable(
-                name: "tbl_RestaurantMenuItem");
-
-            migrationBuilder.DropTable(
                 name: "tbl_Order");
 
             migrationBuilder.DropTable(
-                name: "tbl_RestaurantMenu");
+                name: "tbl_RestaurantMenuItem");
 
             migrationBuilder.DropTable(
                 name: "tbl_DeliveryAddress");
@@ -288,10 +296,13 @@ namespace FoodDelivery.Data.Migrations
                 name: "tbl_PaymentMethod");
 
             migrationBuilder.DropTable(
-                name: "tbl_Restaurant");
+                name: "tbl_RestaurantMenu");
 
             migrationBuilder.DropTable(
                 name: "tbl_Customer");
+
+            migrationBuilder.DropTable(
+                name: "tbl_Restaurant");
         }
     }
 }

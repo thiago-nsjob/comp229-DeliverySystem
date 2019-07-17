@@ -86,7 +86,7 @@ namespace FoodDelivery.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdCustomer,Name,Phone,Email,Password")] Customer customer)
+        public IActionResult Edit(int id, [Bind("IdCustomer,Name,Phone,Email,Password")] Customer customer)
         {
             if (id != customer.IdCustomer)
             {

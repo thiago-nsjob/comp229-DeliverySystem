@@ -1,5 +1,6 @@
 ﻿using FoodDelivery.Data;
 using FoodDelivery.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace FoodDelivery.Repository
         }
 
         public IEnumerable<DeliveryAddress> GetAll =>
-            _context.DeliveryAddress;
+            _context.DeliveryAddress
+            .Include(add => add.CustomerNavigation);
             
 
         public void Add(DeliveryAddress entity)

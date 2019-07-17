@@ -66,7 +66,7 @@ namespace FoodDelivery.Data
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdCustomerNavigation)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.TblDeliveryAddress)
                     .HasForeignKey(d => d.IdCustomer)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -90,31 +90,31 @@ namespace FoodDelivery.Data
 
                 entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdAddressNavigation)
+                entity.HasOne(d => d.AddressNavigation)
                     .WithMany(p => p.TblOrder)
                     .HasForeignKey(d => d.IdAddress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_DeliveryAddress");
 
-                entity.HasOne(d => d.IdCustomerNavigation)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.TblOrder)
                     .HasForeignKey(d => d.IdCustomer)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_Customer");
 
-                entity.HasOne(d => d.IdOrderStatusNavigation)
+                entity.HasOne(d => d.OrderStatusNavigation)
                     .WithMany(p => p.TblOrder)
                     .HasForeignKey(d => d.IdOrderStatus)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_Status");
 
-                entity.HasOne(d => d.IdPaymentMethodNavigation)
+                entity.HasOne(d => d.PaymentMethodNavigation)
                     .WithMany(p => p.TblOrder)
                     .HasForeignKey(d => d.IdPaymentMethod)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_PaymentMethod");
 
-                entity.HasOne(d => d.IdRestaurantNavigation)
+                entity.HasOne(d => d.RestaurantNavigation)
                     .WithMany(p => p.TblOrder)
                     .HasForeignKey(d => d.IdRestaurant)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -132,11 +132,18 @@ namespace FoodDelivery.Data
 
                 entity.Property(e => e.Quantity).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdOrderNavigation)
+                entity.HasOne(d => d.OrderNavigation)
                     .WithMany(p => p.TblOrderItem)
                     .HasForeignKey(d => d.IdOrder)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderItem_Order");
+
+                entity.HasOne(d => d.RestaurantMenuItemNavigation)
+                  .WithMany(p => p.TblOrderItem)
+                  .HasForeignKey(d => d.IdRestaurantMenuItem)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_OrderItem_RestaurantMenuItem");
+
             });
 
             modelBuilder.Entity<OrderStatus>(entity =>
@@ -160,7 +167,7 @@ namespace FoodDelivery.Data
 
                 entity.Property(e => e.ExpireDate).HasColumnType("datetime");
 
-                entity.HasOne(d => d.IdCustomerNavigation)
+                entity.HasOne(d => d.CustomerNavigation)
                     .WithMany(p => p.TblPaymentMethod)
                     .HasForeignKey(d => d.IdCustomer)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -202,7 +209,7 @@ namespace FoodDelivery.Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdRestaurantNavigation)
+                entity.HasOne(d => d.RestaurantNavigation)
                     .WithMany(p => p.TblRestaurantMenu)
                     .HasForeignKey(d => d.IdRestaurant)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -226,7 +233,7 @@ namespace FoodDelivery.Data
 
                 entity.Property(e => e.ItemPrice).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdRestaurantMenuNavigation)
+                entity.HasOne(d => d.RestaurantMenuNavigation)
                     .WithMany(p => p.TblRestaurantMenuItem)
                     .HasForeignKey(d => d.IdRestaurantMenu)
                     .OnDelete(DeleteBehavior.ClientSetNull)

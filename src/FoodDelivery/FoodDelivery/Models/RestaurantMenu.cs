@@ -15,7 +15,7 @@ namespace FoodDelivery.Models
         public string MenuName { get; set; }
         public string MenuType { get; set; }
 
-        public virtual Restaurant IdRestaurantNavigation { get; set; }
+        public virtual Restaurant RestaurantNavigation { get; set; }
         public virtual ICollection<RestaurantMenuItem> TblRestaurantMenuItem { get; set; }
     }
 }

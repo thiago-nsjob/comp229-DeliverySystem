@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.SecurityCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCustomerNavigation)
+                @Html.DisplayNameFor(model => model.CustomerNavigation)
             </th>
             <th></th>
         </tr>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.SecurityCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCustomerNavigation.Name)
+                @Html.DisplayFor(modelItem => item.CustomerNavigation.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdPaymentMethod">Edit</a> |

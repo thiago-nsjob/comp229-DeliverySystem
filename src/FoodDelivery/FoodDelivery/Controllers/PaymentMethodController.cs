@@ -22,7 +22,7 @@ namespace FoodDelivery.Controllers
         // GET: PaymentMethod
         public async Task<IActionResult> Index()
         {
-            var foodDeliveryContext = _context.PaymentMethod.Include(p => p.IdCustomerNavigation);
+            var foodDeliveryContext = _context.PaymentMethod.Include(p => p.CustomerNavigation);
             return View(await foodDeliveryContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace FoodDelivery.Controllers
             }
 
             var paymentMethod = await _context.PaymentMethod
-                .Include(p => p.IdCustomerNavigation)
+                .Include(p => p.CustomerNavigation)
                 .FirstOrDefaultAsync(m => m.IdPaymentMethod == id);
             if (paymentMethod == null)
             {
@@ -131,7 +131,7 @@ namespace FoodDelivery.Controllers
             }
 
             var paymentMethod = await _context.PaymentMethod
-                .Include(p => p.IdCustomerNavigation)
+                .Include(p => p.CustomerNavigation)
                 .FirstOrDefaultAsync(m => m.IdPaymentMethod == id);
             if (paymentMethod == null)
             {

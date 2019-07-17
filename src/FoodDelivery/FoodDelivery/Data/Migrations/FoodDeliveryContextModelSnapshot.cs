@@ -139,6 +139,8 @@ namespace FoodDelivery.Data.Migrations
 
                     b.HasIndex("IdOrder");
 
+                    b.HasIndex("IdRestaurantMenuItem");
+
                     b.ToTable("tbl_OrderItem");
                 });
 
@@ -260,7 +262,7 @@ namespace FoodDelivery.Data.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.DeliveryAddress", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.Customer", "IdCustomerNavigation")
+                    b.HasOne("FoodDelivery.Models.Customer", "CustomerNavigation")
                         .WithMany("TblDeliveryAddress")
                         .HasForeignKey("IdCustomer")
                         .HasConstraintName("FK_DeliveryAddress_Customer");
@@ -268,27 +270,27 @@ namespace FoodDelivery.Data.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.Order", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.DeliveryAddress", "IdAddressNavigation")
+                    b.HasOne("FoodDelivery.Models.DeliveryAddress", "AddressNavigation")
                         .WithMany("TblOrder")
                         .HasForeignKey("IdAddress")
                         .HasConstraintName("FK_Order_DeliveryAddress");
 
-                    b.HasOne("FoodDelivery.Models.Customer", "IdCustomerNavigation")
+                    b.HasOne("FoodDelivery.Models.Customer", "CustomerNavigation")
                         .WithMany("TblOrder")
                         .HasForeignKey("IdCustomer")
                         .HasConstraintName("FK_Order_Customer");
 
-                    b.HasOne("FoodDelivery.Models.OrderStatus", "IdOrderStatusNavigation")
+                    b.HasOne("FoodDelivery.Models.OrderStatus", "OrderStatusNavigation")
                         .WithMany("TblOrder")
                         .HasForeignKey("IdOrderStatus")
                         .HasConstraintName("FK_Order_Status");
 
-                    b.HasOne("FoodDelivery.Models.PaymentMethod", "IdPaymentMethodNavigation")
+                    b.HasOne("FoodDelivery.Models.PaymentMethod", "PaymentMethodNavigation")
                         .WithMany("TblOrder")
                         .HasForeignKey("IdPaymentMethod")
                         .HasConstraintName("FK_Order_PaymentMethod");
 
-                    b.HasOne("FoodDelivery.Models.Restaurant", "IdRestaurantNavigation")
+                    b.HasOne("FoodDelivery.Models.Restaurant", "RestaurantNavigation")
                         .WithMany("TblOrder")
                         .HasForeignKey("IdRestaurant")
                         .HasConstraintName("FK_Order_Restaurant");
@@ -296,15 +298,20 @@ namespace FoodDelivery.Data.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.OrderItem", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.Order", "IdOrderNavigation")
+                    b.HasOne("FoodDelivery.Models.Order", "OrderNavigation")
                         .WithMany("TblOrderItem")
                         .HasForeignKey("IdOrder")
                         .HasConstraintName("FK_OrderItem_Order");
+
+                    b.HasOne("FoodDelivery.Models.RestaurantMenuItem", "RestaurantMenuItemNavigation")
+                        .WithMany("TblOrderItem")
+                        .HasForeignKey("IdRestaurantMenuItem")
+                        .HasConstraintName("FK_OrderItem_RestaurantMenuItem");
                 });
 
             modelBuilder.Entity("FoodDelivery.Models.PaymentMethod", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.Customer", "IdCustomerNavigation")
+                    b.HasOne("FoodDelivery.Models.Customer", "CustomerNavigation")
                         .WithMany("TblPaymentMethod")
                         .HasForeignKey("IdCustomer")
                         .HasConstraintName("FK_PaymentMethod_Customer");
@@ -312,7 +319,7 @@ namespace FoodDelivery.Data.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.RestaurantMenu", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.Restaurant", "IdRestaurantNavigation")
+                    b.HasOne("FoodDelivery.Models.Restaurant", "RestaurantNavigation")
                         .WithMany("TblRestaurantMenu")
                         .HasForeignKey("IdRestaurant")
                         .HasConstraintName("FK_RestaurantMenu_Restaurant");
@@ -320,7 +327,7 @@ namespace FoodDelivery.Data.Migrations
 
             modelBuilder.Entity("FoodDelivery.Models.RestaurantMenuItem", b =>
                 {
-                    b.HasOne("FoodDelivery.Models.RestaurantMenu", "IdRestaurantMenuNavigation")
+                    b.HasOne("FoodDelivery.Models.RestaurantMenu", "RestaurantMenuNavigation")
                         .WithMany("TblRestaurantMenuItem")
                         .HasForeignKey("IdRestaurantMenu")
                         .HasConstraintName("FK_RestaurantMenuItem_RestaurantMenu");

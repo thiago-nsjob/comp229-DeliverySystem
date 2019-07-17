@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FoodDelivery.Repository
 {
-    public class RestaurantMenuItemRepository:IRepository<RestaurantMenuItem>
+    public class RestaurantMenuItemRepository : IRepository<RestaurantMenuItem>
     {
         private FoodDeliveryContext _context;
         public RestaurantMenuItemRepository(FoodDeliveryContext context)
@@ -16,7 +16,10 @@ namespace FoodDelivery.Repository
             _context = context;
         }
 
-        public IEnumerable<RestaurantMenuItem> GetAll => _context.RestaurantMenuItem;
+        public IEnumerable<RestaurantMenuItem> GetAll =>
+            _context.RestaurantMenuItem
+            .Include(res => res.RestaurantMenuNavigation);
+
 
         public void Add(RestaurantMenuItem entity)
         {
@@ -27,7 +30,7 @@ namespace FoodDelivery.Repository
         public RestaurantMenuItem GetById(int? Id)
         {
             return _context.RestaurantMenuItem
-                   .SingleOrDefault(item => item.IdRestaurantMenuItem== Id.Value);
+                   .SingleOrDefault(item => item.IdRestaurantMenuItem == Id.Value);
         }
 
         public void Remove(int? Id)

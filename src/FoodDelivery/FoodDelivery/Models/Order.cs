@@ -21,11 +21,11 @@ namespace FoodDelivery.Models
         public decimal OrderGrossAmount { get; set; }
         public string CustomerNotes { get; set; }
 
-        public virtual DeliveryAddress IdAddressNavigation { get; set; }
-        public virtual Customer IdCustomerNavigation { get; set; }
-        public virtual OrderStatus IdOrderStatusNavigation { get; set; }
-        public virtual PaymentMethod IdPaymentMethodNavigation { get; set; }
-        public virtual Restaurant IdRestaurantNavigation { get; set; }
+        public virtual DeliveryAddress AddressNavigation { get; set; }
+        public virtual Customer CustomerNavigation { get; set; }
+        public virtual OrderStatus OrderStatusNavigation { get; set; }
+        public virtual PaymentMethod PaymentMethodNavigation { get; set; }
+        public virtual Restaurant RestaurantNavigation { get; set; }
         public virtual ICollection<OrderItem> TblOrderItem { get; set; }
     }
 }

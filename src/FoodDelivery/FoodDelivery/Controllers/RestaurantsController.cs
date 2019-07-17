@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using FoodDelivery.Data;
 using FoodDelivery.Models;
 using FoodDelivery.Repository;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace FoodDelivery.Controllers
 {
@@ -55,10 +57,15 @@ namespace FoodDelivery.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRestaurant,Name,Cuisine,Description,Image")] Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("IdRestaurant,Name,Cuisine,Description,Image")] Restaurant restaurant, IFormFile imageFile)
         {
             if (ModelState.IsValid)
             {
+                using (var ms = new MemoryStream())
+                {
+                    imageFile.CopyTo(ms);
+                    restaurant.Image = ms.ToArray();
+                }
                 _repository.Add(restaurant);
                 return RedirectToAction(nameof(Index));
             }
