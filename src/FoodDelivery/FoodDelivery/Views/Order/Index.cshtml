@@ -13,6 +13,22 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.CustomerNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatusNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentMethodNavigation)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.OrderNetAmount)
             </th>
             <th>
@@ -24,27 +40,28 @@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerNotes)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddressNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderStatusNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentMethodNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RestaurantNavigation)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerNavigation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressNavigation.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantNavigation.IdRestaurant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatusNavigation.IdOrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentMethodNavigation.IdPaymentMethod)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderNetAmount)
             </td>
@@ -57,21 +74,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerNotes)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressNavigation.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerNavigation.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderStatusNavigation.IdOrderStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentMethodNavigation.IdPaymentMethod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RestaurantNavigation.IdRestaurant)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdOrder">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IdOrder">Details</a> |
