@@ -14,7 +14,6 @@ namespace FoodDelivery.Controllers
         private readonly IRepository<PaymentMethod> _PaymentMethod;
         private readonly IRepository<OrderStatus> _OrderStatus;
       
-
         public OrderController(IRepository<Order> _IOrder, 
                                IRepository<Customer> _ICustomer,
                                IRepository<DeliveryAddress> _IDeliveryAddress,
@@ -135,7 +134,6 @@ namespace FoodDelivery.Controllers
             }
             return View(order);
         }
-
         // GET: Customers/Delete/5
         public IActionResult Delete(int? id)
         {
@@ -164,8 +162,6 @@ namespace FoodDelivery.Controllers
         {
             return _Order.GetById(id) != null;
         }
-
-
 
     }
 }
