@@ -1,4 +1,23 @@
-﻿@{
+﻿
+@model IEnumerable<FoodDelivery.Models.Restaurant>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+
+
+    
+        @foreach (var item in Model)
+        {
+            <div class="card" >
+                <img class="img-responsive img-thumbnail rounded float-left card-img-top" src="data:image/jpeg;base64,@(item.Image == null ? "" : Convert.ToBase64String(item.Image)) " />
+                <div class="card-body">
+                    <h5 class="card-title">@(item.Name)</h5>
+                    <p class="card-text">@(item.Description)</p>
+                    <a asp-action="#" asp-controller="Restaurants" asp-route-id="@item.IdRestaurant">GoTo</a> |
+                </div>
+            </div>
+        }
+
+  
 
