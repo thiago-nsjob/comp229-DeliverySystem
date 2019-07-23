@@ -34,7 +34,7 @@ namespace FoodDelivery.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("IdOrder,IdCustomer,IdAddress,IdPaymentMethod,IdRestaurant,IdOrderStatus,OrderNetAmount,OrderTax,OrderGrossAmount,CustomerNotes")] OrderStatus orderStatus)
+        public IActionResult Create([Bind("IdOrderStatus,StatusName")] OrderStatus orderStatus)
         {
             if (ModelState.IsValid)
             {
@@ -43,6 +43,32 @@ namespace FoodDelivery.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(orderStatus);
+        }
+
+        // GET: Customers/Delete/5
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var orderStatus = _repository.GetById(id);
+
+            if (_repository.GetById(id) == null)
+                return NotFound();
+
+
+
+            return View(orderStatus);
+        }
+
+        // POST: Customers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var order = _repository.GetById(id);
+            _repository.Remove(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

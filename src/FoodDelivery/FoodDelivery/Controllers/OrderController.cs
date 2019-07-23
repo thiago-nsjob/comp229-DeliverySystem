@@ -9,14 +9,11 @@ namespace FoodDelivery.Controllers
     {
         private readonly IRepository<Order> _Order;
         private readonly IRepository<Customer> _Customer;
-        // private readonly IRepository<DeliveryAddress> _DeliveryAddress;
+        private readonly IRepository<DeliveryAddress> _DeliveryAddress;
         private readonly IRepository<Restaurant> _Restaurant;
-        //private readonly IRepository<PaymentMethod> _PaymentMethod;
+        private readonly IRepository<PaymentMethod> _PaymentMethod;
         private readonly IRepository<OrderStatus> _OrderStatus;
-        //@(new SelectList(ViewBag.CustomerNavigation, "IdCustomer","Name"))
-        //@(new SelectList(ViewBag.RestaurantNavigation, "IdRestaurant","Name"))
-        //@(new SelectList(ViewBag.OrderStatusNavigation, "IdOrderStatus","StatusName"))
-
+      
         public OrderController(IRepository<Order> _IOrder, 
                                IRepository<Customer> _ICustomer,
                                IRepository<DeliveryAddress> _IDeliveryAddress,
@@ -26,9 +23,9 @@ namespace FoodDelivery.Controllers
         {
             _Order = _IOrder;
             _Customer = _ICustomer;
-            // _DeliveryAddress = _IDeliveryAddress;
+            _DeliveryAddress = _IDeliveryAddress;
             _Restaurant = _IRestaurant;
-            // _PaymentMethod = _IPaymentMethod;
+            _PaymentMethod = _IPaymentMethod;
             _OrderStatus = _IOrderStatus;
         }
 
@@ -59,9 +56,9 @@ namespace FoodDelivery.Controllers
         public IActionResult Create()
         {
             ViewBag.CustomerNavigation = _Customer.GetAll;
-            // ViewBag.AddressNavigation = _DeliveryAddress.GetAll;
+            ViewBag.AddressNavigation = _DeliveryAddress.GetAll;
             ViewBag.RestaurantNavigation = _Restaurant.GetAll;
-            //ViewBag.PaymentMethodNavigation = _PaymentMethod.GetAll;
+            ViewBag.PaymentMethodNavigation = _PaymentMethod.GetAll;
             ViewBag.OrderStatusNavigation = _OrderStatus.GetAll;
             return View();
         }
@@ -137,7 +134,6 @@ namespace FoodDelivery.Controllers
             }
             return View(order);
         }
-
         // GET: Customers/Delete/5
         public IActionResult Delete(int? id)
         {
@@ -148,8 +144,6 @@ namespace FoodDelivery.Controllers
 
             if (_Order.GetById(id) == null)
                 return NotFound();
-
-
 
             return View(order);
         }
@@ -168,8 +162,6 @@ namespace FoodDelivery.Controllers
         {
             return _Order.GetById(id) != null;
         }
-
-
 
     }
 }
