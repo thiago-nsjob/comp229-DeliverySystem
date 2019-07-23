@@ -5,14 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FoodDelivery.Models;
+using FoodDelivery.Repository;
 
 namespace FoodDelivery.Controllers
 {
     public class HomeController : Controller
     {
+        public IRepository<Restaurant> _repository;
+        public HomeController (IRepository<Restaurant> repository)
+        {
+            _repository = repository;
+        }
         public IActionResult Index()
         {
-            return View();
+            return View(_repository.GetAll);
         }
 
         public IActionResult About()
