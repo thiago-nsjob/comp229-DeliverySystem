@@ -45,13 +45,12 @@ namespace FoodDelivery
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+           
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClientId = Configuration["GCredential:ClientId"];
+                googleOptions.ClientSecret = Configuration["GCredential:ClientSecret"];
             });
-
-         
 
             services.AddTransient<IRepository<Customer>, CustomerRepository>();
             services.AddTransient<IRepository<DeliveryAddress>, DeliveryAddressRepository>();
