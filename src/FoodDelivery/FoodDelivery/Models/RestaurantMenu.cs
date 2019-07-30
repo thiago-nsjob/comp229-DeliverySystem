@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodDelivery.Models
 {
@@ -10,6 +11,7 @@ namespace FoodDelivery.Models
             TblRestaurantMenuItem = new HashSet<RestaurantMenuItem>();
         }
 
+        [Key]
         public int IdRestaurantMenu { get; set; }
         public int IdRestaurant { get; set; }
         public string MenuName { get; set; }

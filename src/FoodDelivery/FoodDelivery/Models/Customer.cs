@@ -12,6 +12,7 @@ namespace FoodDelivery.Models
             TblPaymentMethod = new HashSet<PaymentMethod>();
         }
 
+        [Key]
         public int IdCustomer { get; set; }
         [Required]
         [Display(Name="Customer Name")]
