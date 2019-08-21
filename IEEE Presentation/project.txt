@@ -1,0 +1,10 @@
+-Create db
+-Start new asp.net core project
+	Install-Package Microsoft.EntityFrameworkCore.Tools
+-Scaffold the models(https://docs.microsoft.com/en-us/ef/core/managing-schemas/scaffolding)
+	Scaffold-DbContext -Context RestaurantContext "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=restaurant;Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables Restaurant,RestaurantMenu,RestaurantMenuItem
+	
+-Scaffold controller and views
+-Create generic repository 
+-Add image upload funcionality
+-Beautify GUI
