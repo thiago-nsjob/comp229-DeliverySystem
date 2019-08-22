@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RestaurantDelivery.Models;
+using RestaurantDelivery.Repository;
 
 namespace RestaurantDelivery
 {
@@ -36,7 +37,10 @@ namespace RestaurantDelivery
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //services.AddDbContext<RestaurantDeliveryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr")));
+            services.AddDbContext<RestaurantDeliveryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr")));
+            services.AddTransient<IRepository<Restaurant>, RestaurantRepository>();
+            services.AddTransient<IRepository<MenuItem>, MenuItemRepository>();
+            services.AddTransient<IRepository<Order>, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
