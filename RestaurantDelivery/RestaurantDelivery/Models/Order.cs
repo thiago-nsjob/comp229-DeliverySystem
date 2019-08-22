@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RestaurantDelivery.Models
 {
-    public partial class Orders
+    public partial class Order
     {
         public int IdOrder { get; set; }
         public int IdRestaurant { get; set; }
@@ -15,7 +15,7 @@ namespace RestaurantDelivery.Models
         public decimal? OrderGrossAmount { get; set; }
         public string CustomerNotes { get; set; }
 
-        public virtual MenuItems IdMenuItemNavigation { get; set; }
-        public virtual Restaurants IdRestaurantNavigation { get; set; }
+        public virtual MenuItem IdMenuItemNavigation { get; set; }
+        public virtual Restaurant IdRestaurantNavigation { get; set; }
     }
 }

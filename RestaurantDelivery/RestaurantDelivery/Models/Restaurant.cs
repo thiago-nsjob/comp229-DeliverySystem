@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace RestaurantDelivery.Models
 {
-    public partial class Restaurants
+    public partial class Restaurant
     {
-        public Restaurants()
+        public Restaurant()
         {
-            MenuItems = new HashSet<MenuItems>();
-            Orders = new HashSet<Orders>();
+            MenuItem = new HashSet<MenuItem>();
+            Order = new HashSet<Order>();
         }
 
         public int IdRestaurant { get; set; }
@@ -18,7 +18,7 @@ namespace RestaurantDelivery.Models
         public string Cuisine { get; set; }
         public byte[] Image { get; set; }
 
-        public virtual ICollection<MenuItems> MenuItems { get; set; }
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<MenuItem> MenuItem { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

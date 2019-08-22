@@ -36,7 +36,7 @@ namespace RestaurantDelivery
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<RestaurantDeliveryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr")));
+            //services.AddDbContext<RestaurantDeliveryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

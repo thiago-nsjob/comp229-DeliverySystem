@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace RestaurantDelivery.Models
 {
-    public partial class MenuItems
+    public partial class MenuItem
     {
-        public MenuItems()
+        public MenuItem()
         {
-            Orders = new HashSet<Orders>();
+            Order = new HashSet<Order>();
         }
 
         public int IdMenuItem { get; set; }
@@ -16,7 +16,7 @@ namespace RestaurantDelivery.Models
         public string ItemDescription { get; set; }
         public decimal? ItemPrice { get; set; }
 
-        public virtual Restaurants IdRestaurantNavigation { get; set; }
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual Restaurant IdRestaurantNavigation { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
     }
 }

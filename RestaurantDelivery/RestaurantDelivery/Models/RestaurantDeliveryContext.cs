@@ -15,9 +15,9 @@ namespace RestaurantDelivery.Models
         {
         }
 
-        public virtual DbSet<MenuItems> MenuItems { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Restaurants> Restaurants { get; set; }
+        public virtual DbSet<MenuItem> MenuItem { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Restaurant> Restaurant { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,9 +31,10 @@ namespace RestaurantDelivery.Models
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
-            modelBuilder.Entity<MenuItems>(entity =>
+            modelBuilder.Entity<MenuItem>(entity =>
             {
-                entity.HasKey(e => e.IdMenuItem);
+                entity.HasKey(e => e.IdMenuItem)
+                    .HasName("PK_MenuItems");
 
                 entity.Property(e => e.ItemDescription)
                     .HasMaxLength(50)
@@ -46,15 +47,16 @@ namespace RestaurantDelivery.Models
                 entity.Property(e => e.ItemPrice).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdRestaurantNavigation)
-                    .WithMany(p => p.MenuItems)
+                    .WithMany(p => p.MenuItem)
                     .HasForeignKey(d => d.IdRestaurant)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MenuItems_Restaurants");
             });
 
-            modelBuilder.Entity<Orders>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
-                entity.HasKey(e => e.IdOrder);
+                entity.HasKey(e => e.IdOrder)
+                    .HasName("PK_Orders");
 
                 entity.Property(e => e.IdOrder).ValueGeneratedNever();
 
@@ -77,21 +79,22 @@ namespace RestaurantDelivery.Models
                 entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdMenuItemNavigation)
-                    .WithMany(p => p.Orders)
+                    .WithMany(p => p.Order)
                     .HasForeignKey(d => d.IdMenuItem)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_MenuItems");
 
                 entity.HasOne(d => d.IdRestaurantNavigation)
-                    .WithMany(p => p.Orders)
+                    .WithMany(p => p.Order)
                     .HasForeignKey(d => d.IdRestaurant)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Restaurants");
             });
 
-            modelBuilder.Entity<Restaurants>(entity =>
+            modelBuilder.Entity<Restaurant>(entity =>
             {
-                entity.HasKey(e => e.IdRestaurant);
+                entity.HasKey(e => e.IdRestaurant)
+                    .HasName("PK_Restaurants");
 
                 entity.Property(e => e.Address).HasMaxLength(50);
 
