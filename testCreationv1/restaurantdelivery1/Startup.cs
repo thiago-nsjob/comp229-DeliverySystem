@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RestaurantDelivery.Models;
-using RestaurantDelivery.Repository;
+using restaurantdelivery1.Models;
+using restaurantdelivery1.Repository;
 
-namespace RestaurantDelivery
+namespace restaurantdelivery1
 {
     public class Startup
     {
@@ -34,13 +34,13 @@ namespace RestaurantDelivery
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<RestaurantDeliveryContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr")));
+            services.AddDbContext<RestaurantContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("ConnectionStr"))
+            );
+
 
             services.AddTransient<IRepository<Restaurant>, RestaurantRepository>();
 
-            //services.AddTransient<IRepository<MenuItem>, MenuItemRepository>();
-            //services.AddTransient<IRepository<Order>, OrderRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

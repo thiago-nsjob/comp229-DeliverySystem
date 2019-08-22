@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestaurantDelivery.Models
+namespace restaurantdelivery1.Models
 {
     public partial class Order
     {
-        
         public int IdOrder { get; set; }
         public int IdRestaurant { get; set; }
         public int IdMenuItem { get; set; }
@@ -17,7 +15,7 @@ namespace RestaurantDelivery.Models
         public decimal? OrderGrossAmount { get; set; }
         public string CustomerNotes { get; set; }
 
-        public virtual MenuItem MenuItemNavigation { get; set; }
-        public virtual Restaurant RestaurantNavigation { get; set; }
+        public virtual MenuItem IdMenuItemNavigation { get; set; }
+        public virtual Restaurant IdRestaurantNavigation { get; set; }
     }
 }
