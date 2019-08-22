@@ -1,4 +1,5 @@
-﻿using RestaurantDelivery.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantDelivery.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,29 +18,34 @@ namespace RestaurantDelivery.Repository
 
         public async Task<IQueryable<Order>> GetAll() =>
             await Task.FromResult(_repository.Order
-                //.Include(res => res.MenuItem)
-                //.ThenInclude(menu => menu.RestaurantMenuItem) //Intellisense issue https://github.com/dotnet/roslyn/issues/8237
+                .Include(ord=>ord.RestaurantNavigation)
+                .Include(ord=>ord.MenuItemNavigation)
                 );
 
         public async Task<Order> Add(Order entity)
         {
             await _repository.AddAsync(entity);
+            _repository.SaveChanges();
             return entity;
         }
 
-        public Order GetById(int? Id)
+        public async Task<Order> GetById(int? Id)
         {
-            throw new NotImplementedException();
+            return await _repository.Order
+                  .SingleOrDefaultAsync(item => item.IdRestaurant == Id.Value);
         }
 
-        public Task Remove(int? Id)
+        public async Task Remove(int? Id)
         {
-            throw new NotImplementedException();
+            var order = await GetById(Id);
+            _repository.Order.Remove(order);
+            await _repository.SaveChangesAsync();
         }
 
-        public Task Update(Order entity)
+        public async Task Update(Order entity)
         {
-            throw new NotImplementedException();
+            _repository.Update(entity);
+            await _repository.SaveChangesAsync();
         }
     }
 }

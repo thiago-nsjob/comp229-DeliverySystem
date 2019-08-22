@@ -8,7 +8,7 @@ namespace RestaurantDelivery.Repository
     public interface IRepository<T>
     {
         Task<IQueryable<T>> GetAll();
-        T GetById(int? Id);
+        Task<T> GetById(int? Id);
         Task<T> Add(T entity);
         Task Remove(int? Id);
 

@@ -31,10 +31,10 @@
                 @Html.DisplayNameFor(model => model.CustomerNotes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdMenuItemNavigation)
+                @Html.DisplayNameFor(model => model.MenuItemNavigation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdRestaurantNavigation)
+                @Html.DisplayNameFor(model => model.RestaurantNavigation)
             </th>
             <th></th>
         </tr>
@@ -61,10 +61,10 @@
                 @Html.DisplayFor(modelItem => item.CustomerNotes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdMenuItemNavigation.IdMenuItem)
+                @Html.DisplayFor(modelItem => item.MenuItemNavigation.IdMenuItem)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdRestaurantNavigation.IdRestaurant)
+                @Html.DisplayFor(modelItem => item.RestaurantNavigation.IdRestaurant)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdOrder">Edit</a> |

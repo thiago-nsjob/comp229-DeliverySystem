@@ -26,19 +26,23 @@ namespace RestaurantDelivery.Repository
             await Task.FromResult(_repository.MenuItem
                 );
 
-        public MenuItem GetById(int? Id)
+        public async Task<MenuItem> GetById(int? Id)
         {
-            throw new NotImplementedException();
+            return await _repository.MenuItem
+                .SingleOrDefaultAsync(item => item.IdRestaurant == Id.Value);
         }
 
-        public Task Remove(int? Id)
+        public async Task Remove(int? Id)
         {
-            throw new NotImplementedException();
+            var menuItem = await GetById(Id);
+            _repository.MenuItem.Remove(menuItem);
+            await _repository.SaveChangesAsync();
         }
 
-        public Task Update(MenuItem entity)
+        public async Task Update(MenuItem entity)
         {
-            throw new NotImplementedException();
+            _repository.Update(entity);
+            await _repository.SaveChangesAsync();
         }
     }
 }

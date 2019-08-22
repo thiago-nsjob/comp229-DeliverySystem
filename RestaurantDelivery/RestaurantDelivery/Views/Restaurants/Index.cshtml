@@ -46,7 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Cuisine)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                <div class="card" style="width: 15rem;">
+                    <img class="img-responsive img-thumbnail rounded float-left" src="data:image/jpeg;base64,@(item.Image == null ? "" : Convert.ToBase64String(item.Image)) " />
+                </div>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdRestaurant">Edit</a> |

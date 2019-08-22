@@ -6,23 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RestaurantDelivery.Models;
+using RestaurantDelivery.Repository;
 
 namespace RestaurantDelivery.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly RestaurantDeliveryContext _context;
+        private readonly IRepository<Restaurant> _repoRestaurant;
+        private readonly IRepository<MenuItem> _repoMenu;
+        private readonly IRepository<Order> _repoOrder;
 
-        public OrdersController(RestaurantDeliveryContext context)
+        public OrdersController(IRepository<Order> repoOrder, IRepository<MenuItem> repoMenu, IRepository<Restaurant> repoRestaurant)
         {
-            _context = context;
+            _repoOrder = repoOrder;
+            _repoMenu = repoMenu;
+            _repoRestaurant = repoRestaurant;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var restaurantDeliveryContext = _context.Order.Include(o => o.IdMenuItemNavigation).Include(o => o.IdRestaurantNavigation);
-            return View(await restaurantDeliveryContext.ToListAsync());
+            return View(await _repoOrder.GetAll());
         }
 
         // GET: Orders/Details/5
@@ -33,10 +37,9 @@ namespace RestaurantDelivery.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .Include(o => o.IdMenuItemNavigation)
-                .Include(o => o.IdRestaurantNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+            var orders = await _repoOrder.GetAll();
+            var order = await orders.FirstOrDefaultAsync(m => m.IdRestaurant == id);
+
             if (order == null)
             {
                 return NotFound();
@@ -46,10 +49,10 @@ namespace RestaurantDelivery.Controllers
         }
 
         // GET: Orders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem");
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant");
+            await FillAuxiliaryLists();
+
             return View();
         }
 
@@ -58,16 +61,15 @@ namespace RestaurantDelivery.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdOrder,IdRestaurant,IdMenuItem,CustomerName,CustomerAddress,OrderNetAmount,OrderTax,OrderGrossAmount,CustomerNotes")] Order order)
+        public async Task<IActionResult> Create([Bind("IdRestaurant,IdMenuItem,CustomerName,CustomerAddress,OrderNetAmount,OrderTax,OrderGrossAmount,CustomerNotes")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
+                await _repoOrder.Add(order);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
+
+            await FillAuxiliaryLists();
             return View(order);
         }
 
@@ -79,14 +81,26 @@ namespace RestaurantDelivery.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
+            var orders = await _repoOrder.GetAll();
+            var order = await orders.FirstOrDefaultAsync(m => m.IdRestaurant == id);
+
             if (order == null)
             {
                 return NotFound();
             }
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
+
+            await FillAuxiliaryLists();
+
             return View(order);
+        }
+
+        private async Task FillAuxiliaryLists()
+        {
+            var lstMenuItem = await _repoMenu.GetAll();
+            var lstRestaurant = await _repoRestaurant.GetAll();
+
+            ViewData["MenuItem"] = new SelectList(lstMenuItem, "IdMenuItem", "ItemName");
+            ViewData["Restaurant"] = new SelectList(lstRestaurant, "IdRestaurant", "Name");
         }
 
         // POST: Orders/Edit/5
@@ -105,8 +119,7 @@ namespace RestaurantDelivery.Controllers
             {
                 try
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
+                    await _repoOrder.Update(order);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,8 +134,9 @@ namespace RestaurantDelivery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
+
+            await FillAuxiliaryLists();
+
             return View(order);
         }
 
@@ -134,10 +148,9 @@ namespace RestaurantDelivery.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .Include(o => o.IdMenuItemNavigation)
-                .Include(o => o.IdRestaurantNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+            var orders = await _repoOrder.GetAll();
+            var order = await orders.FirstOrDefaultAsync(m => m.IdRestaurant == id);
+
             if (order == null)
             {
                 return NotFound();
@@ -151,15 +164,18 @@ namespace RestaurantDelivery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Order.FindAsync(id);
-            _context.Order.Remove(order);
-            await _context.SaveChangesAsync();
+            var orders = await _repoOrder.GetAll();
+            var order = await orders.FirstOrDefaultAsync(m => m.IdRestaurant == id);
+
+            await _repoOrder.Remove(order?.IdOrder);
+    
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.IdOrder == id);
+            var orders = _repoOrder.GetAll().Result;
+            return orders.Any(e => e.IdRestaurant == id);
         }
     }
 }

@@ -78,13 +78,13 @@ namespace RestaurantDelivery.Models
 
                 entity.Property(e => e.OrderTax).HasColumnType("decimal(18, 0)");
 
-                entity.HasOne(d => d.IdMenuItemNavigation)
+                entity.HasOne(d => d.MenuItemNavigation)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.IdMenuItem)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_MenuItems");
 
-                entity.HasOne(d => d.IdRestaurantNavigation)
+                entity.HasOne(d => d.RestaurantNavigation)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.IdRestaurant)
                     .OnDelete(DeleteBehavior.ClientSetNull)
