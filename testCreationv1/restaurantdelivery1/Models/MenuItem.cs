@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace restaurantdelivery1.Models
 {
@@ -11,6 +12,7 @@ namespace restaurantdelivery1.Models
         }
 
         public int IdMenuItem { get; set; }
+        [Display(Name = "Restaurant Name")]
         public int IdRestaurant { get; set; }
         public string ItemName { get; set; }
         public string ItemDescription { get; set; }

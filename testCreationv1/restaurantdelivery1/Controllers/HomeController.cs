@@ -5,14 +5,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using restaurantdelivery1.Models;
+using restaurantdelivery1.Repository;
 
 namespace restaurantdelivery1.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IRepository<Restaurant> _repository;
+
+        public HomeController(IRepository<Restaurant> repository)
         {
-            return View();
+            _repository = repository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _repository.GetAll());
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<restaurantdelivery1.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderNetAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderTax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderGrossAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdMenuItemNavigation.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdRestaurantNavigation.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNetAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderGrossAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdMenuItemNavigation.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRestaurantNavigation.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdOrder">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdOrder">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdOrder">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
