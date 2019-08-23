@@ -19,7 +19,6 @@ namespace restaurantdelivery1.Repository
         public async Task<IQueryable<MenuItem>> GetAll() =>
             await Task.FromResult(_repository.MenuItem
                 .Include(res => res.IdRestaurantNavigation)
-                //.ThenInclude(menu => menu.RestaurantMenuItem) //Intellisense issue https://github.com/dotnet/roslyn/issues/8237
                 );
 
         public async Task<MenuItem> Add(MenuItem entity)

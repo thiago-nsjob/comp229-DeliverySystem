@@ -6,24 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using restaurantdelivery1.Models;
+using restaurantdelivery1.Repository;
 
 namespace restaurantdelivery1.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly RestaurantContext _context;
+        private readonly RestaurantContext _rescontext;
+        private readonly IRepository<Order> _context;
 
-
-        public OrdersController(RestaurantContext context)
+        public OrdersController(RestaurantContext rescontext, IRepository<Order> context)
         {
             _context = context;
+            _rescontext = rescontext;
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var restaurantContext = _context.Order.Include(o => o.IdMenuItemNavigation).Include(o => o.IdRestaurantNavigation);
-            return View(await restaurantContext.ToListAsync());
+            //var restaurantContext = _context.Order.Include(o => o.IdMenuItemNavigation).Include(o => o.IdRestaurantNavigation);
+            return View(await _context.GetAll());
         }
 
         // GET: Orders/Details/5
@@ -34,10 +36,7 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .Include(o => o.IdMenuItemNavigation)
-                .Include(o => o.IdRestaurantNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+            var order = await _context.GetById(id);
             if (order == null)
             {
                 return NotFound();
@@ -49,8 +48,8 @@ namespace restaurantdelivery1.Controllers
         // GET: Orders/Create
         public IActionResult Create()
         {
-            ViewData["ItemName"] = new SelectList(_context.MenuItem, "IdMenuItem", "ItemName");
-            ViewData["Name"] = new SelectList(_context.Restaurant, "IdRestaurant", "Name");
+            ViewData["ItemName"] = new SelectList(_rescontext.MenuItem, "IdMenuItem", "ItemName");
+            ViewData["Name"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "Name");
             return View();
         }
 
@@ -63,12 +62,12 @@ namespace restaurantdelivery1.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                await _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
+            ViewData["IdMenuItem"] = new SelectList(_rescontext.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
+            ViewData["IdRestaurant"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
             return View(order);
         }
 
@@ -80,13 +79,13 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
+            var order = await  _context.GetById(id); ;
             if (order == null)
             {
                 return NotFound();
             }
-            ViewData["ItemName"] = new SelectList(_context.MenuItem, "IdMenuItem", "ItemName", order.IdMenuItem);
-            ViewData["Name"] = new SelectList(_context.Restaurant, "IdRestaurant", "Name", order.IdRestaurant);
+            ViewData["ItemName"] = new SelectList(_rescontext.MenuItem, "IdMenuItem", "ItemName", order.IdMenuItem);
+            ViewData["Name"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "Name", order.IdRestaurant);
             return View(order);
         }
 
@@ -106,7 +105,7 @@ namespace restaurantdelivery1.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    await _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -122,8 +121,8 @@ namespace restaurantdelivery1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdMenuItem"] = new SelectList(_context.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
-            ViewData["IdRestaurant"] = new SelectList(_context.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
+            ViewData["IdMenuItem"] = new SelectList(_rescontext.MenuItem, "IdMenuItem", "IdMenuItem", order.IdMenuItem);
+            ViewData["IdRestaurant"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "IdRestaurant", order.IdRestaurant);
             return View(order);
         }
 
@@ -135,10 +134,7 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .Include(o => o.IdMenuItemNavigation)
-                .Include(o => o.IdRestaurantNavigation)
-                .FirstOrDefaultAsync(m => m.IdOrder == id);
+            var order = await _context.GetById(id);
             if (order == null)
             {
                 return NotFound();
@@ -152,15 +148,15 @@ namespace restaurantdelivery1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Order.FindAsync(id);
-            _context.Order.Remove(order);
+            var order = await _context.GetById(id);
+            await _context.Remove(id);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.IdOrder == id);
+            return _context.GetById(id) != null;
         }
     }
 }
