@@ -47,5 +47,11 @@ namespace restaurantdelivery1.Repository
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
         }
+        public Task SaveChangesAsync()
+        {
+            return Task.Run(() => {
+                _repository.SaveChanges();
+            });
+        }
     }
 }
