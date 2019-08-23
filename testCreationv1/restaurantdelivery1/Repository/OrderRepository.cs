@@ -18,8 +18,8 @@ namespace restaurantdelivery1.Repository
 
         public async Task<IQueryable<Order>> GetAll() =>
             await Task.FromResult(_repository.Order
-                .Include(res => res.IdMenuItemNavigation)
-                .Include(menu => menu.IdRestaurantNavigation) //Intellisense issue https://github.com/dotnet/roslyn/issues/8237
+                .Include(res => res.MenuItemNavigation)
+                .Include(menu => menu.RestaurantNavigation) 
                 );
 
         public async Task<Order> Add(Order entity)

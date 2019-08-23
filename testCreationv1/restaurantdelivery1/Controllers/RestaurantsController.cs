@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +14,17 @@ namespace restaurantdelivery1.Controllers
 {
     public class RestaurantsController : Controller
     {
-        private readonly IRepository<Restaurant> _context;
+        private readonly IRepository<Restaurant> _repoRestaurant;
 
-        public RestaurantsController(IRepository<Restaurant> context)
+        public RestaurantsController(IRepository<Restaurant> repoRestaurant)
         {
-            _context = context;
+            _repoRestaurant = repoRestaurant;
         }
 
         // GET: Restaurants
         public async Task<IActionResult> Index()
         {
-            return View(await _context.GetAll());
+            return View(await _repoRestaurant.GetAll());
         }
 
         // GET: Restaurants/Details/5
@@ -33,7 +35,7 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.GetById(id);
+            var restaurant = await _repoRestaurant.GetById(id);
                 //.FirstOrDefaultAsync(m => m.IdRestaurant == id);
             if (restaurant == null)
             {
@@ -58,8 +60,7 @@ namespace restaurantdelivery1.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.Add(restaurant);   
-                await _context.SaveChangesAsync();
+                await _repoRestaurant.Add(restaurant);   
                 return RedirectToAction(nameof(Index));
             }
             return View(restaurant);
@@ -73,7 +74,7 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.GetById(id);
+            var restaurant = await _repoRestaurant.GetById(id);
             if (restaurant == null)
             {
                 return NotFound();
@@ -86,19 +87,21 @@ namespace restaurantdelivery1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRestaurant,Name,Address,Description,Cuisine,Image")] Restaurant restaurant)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRestaurant,Name,Address,Description,Cuisine,Image")] Restaurant restaurant, IFormFile imageFile)
         {
             if (id != restaurant.IdRestaurant)
-            {
                 return NotFound();
-            }
-
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _context.Update(restaurant);
-                    await _context.SaveChangesAsync();
+                    using (var ms = new MemoryStream())
+                    {
+                        imageFile.CopyTo(ms);
+                        restaurant.Image = ms.ToArray();
+                    }
+                    await _repoRestaurant.Update(restaurant);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +127,7 @@ namespace restaurantdelivery1.Controllers
                 return NotFound();
             }
 
-            var restaurant = await _context.GetById(id);
+            var restaurant = await _repoRestaurant.GetById(id);
             if (restaurant == null)
             {
                 return NotFound();
@@ -138,15 +141,14 @@ namespace restaurantdelivery1.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var restaurant = await _context.GetById(id);
-            await _context.Remove(id);
-            await _context.SaveChangesAsync();
+            var restaurant = await _repoRestaurant.GetById(id);
+            await _repoRestaurant.Remove(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool RestaurantExists(int id)
         {
-            return _context.GetById(id)!=null;
+            return _repoRestaurant.GetById(id)!=null;
         }
     }
 }

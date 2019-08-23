@@ -12,6 +12,6 @@ namespace restaurantdelivery1.Repository
         Task<T> Add(T entity);
         Task Remove(int? Id);
         Task Update(T entity);
-        Task SaveChangesAsync();
+        
     }
 }

@@ -42,6 +42,7 @@ namespace restaurantdelivery1
             services.AddTransient<IRepository<Restaurant>, RestaurantRepository>();
             services.AddTransient<IRepository<MenuItem>, MenuItemRepository>();
             services.AddTransient<IRepository<Order>, OrderRepository>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

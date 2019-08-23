@@ -15,7 +15,7 @@ namespace restaurantdelivery1.Models
         public decimal? OrderGrossAmount { get; set; }
         public string CustomerNotes { get; set; }
 
-        public virtual MenuItem IdMenuItemNavigation { get; set; }
-        public virtual Restaurant IdRestaurantNavigation { get; set; }
+        public virtual MenuItem MenuItemNavigation { get; set; }
+        public virtual Restaurant RestaurantNavigation { get; set; }
     }
 }
