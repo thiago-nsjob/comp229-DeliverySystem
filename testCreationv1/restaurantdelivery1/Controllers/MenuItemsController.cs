@@ -14,12 +14,12 @@ namespace restaurantdelivery1.Controllers
     {
         private readonly IRepository<MenuItem> _context;
         private readonly IRepository<Restaurant> _restaurant;
-        private readonly RestaurantContext _rescontext;
 
-        public MenuItemsController(IRepository<MenuItem> context,RestaurantContext rescontext)
+        public MenuItemsController(IRepository<MenuItem> context,
+                                   IRepository<Restaurant> restaurant)
         {
             _context = context;
-            _rescontext = rescontext;
+            _restaurant = restaurant;
         }
 
         // GET: MenuItems
@@ -46,12 +46,11 @@ namespace restaurantdelivery1.Controllers
         }
 
         // GET: MenuItems/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-
-            ViewData["Name"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "Name");
-
-            return View();
+           var restaurant = await _restaurant.GetAll();  
+           ViewData["Name"] = new SelectList(restaurant, "IdRestaurant", "Name");
+           return View();
         }
 
         // POST: MenuItems/Create
@@ -67,7 +66,8 @@ namespace restaurantdelivery1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRestaurant"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "IdRestaurant", menuItem.IdRestaurant);
+            var restaurant = await _restaurant.GetAll();
+            ViewData["IdRestaurant"] = new SelectList(restaurant, "IdRestaurant", "IdRestaurant", menuItem.IdRestaurant);
             return View(menuItem);
         }
 
@@ -84,7 +84,8 @@ namespace restaurantdelivery1.Controllers
             {
                 return NotFound();
             }
-            ViewData["Name"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "Name", menuItem.IdRestaurant);
+            var restaurant = await _restaurant.GetAll();
+            ViewData["Name"] = new SelectList(restaurant, "IdRestaurant", "Name", menuItem.IdRestaurant);
             return View(menuItem);
         }
 
@@ -120,7 +121,8 @@ namespace restaurantdelivery1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRestaurant"] = new SelectList(_rescontext.Restaurant, "IdRestaurant", "IdRestaurant", menuItem.IdRestaurant);
+            var restaurant = await _restaurant.GetAll();
+            ViewData["IdRestaurant"] = new SelectList(restaurant, "IdRestaurant", "IdRestaurant", menuItem.IdRestaurant);
             return View(menuItem);
         }
 
